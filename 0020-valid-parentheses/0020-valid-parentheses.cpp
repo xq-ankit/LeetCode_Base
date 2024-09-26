@@ -1,3 +1,4 @@
+
 class Solution {
 public:
     bool isValid(string s) {
@@ -13,12 +14,13 @@ public:
                     st.pop();
                 else if(c==')' && st.top()=='(')
                     st.pop();
-                else
-                 return false;
+                else{
+                    return false;
+                }
             }
-            else
+            else{
                 return false;
-           
+            }
         }
         return st.empty();
     }
