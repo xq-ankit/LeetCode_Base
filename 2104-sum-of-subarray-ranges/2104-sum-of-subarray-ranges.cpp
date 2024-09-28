@@ -1,26 +1,27 @@
 class Solution {
 public:
     long long subArrayRanges(vector<int>& nums) {
-        long long maxSum = sumSubarrayMaxs(nums);
-        long long minSum = sumSubarrayMins(nums); 
-        return maxSum - minSum; 
+        long long minSum=sumSubarrayMaxs(nums);
+        long long maxSum=sumSubarrayMins(nums);
+        return minSum-maxSum;
     }
 
-    // Function to find the Next Greater Element (NGE) for each index
-    vector<int> findNGE(vector<int>& arr) {
+
+vector<int> findNGE(vector<int>& arr) {
         vector<int> ans(arr.size());
         stack<int> st;
         for (int i = arr.size() - 1; i >= 0; i--) {
             while (!st.empty() && arr[st.top()] <= arr[i]) {
                 st.pop();
             }
+            // If no smaller element is found, treat the boundary as arr.size()
             ans[i] = st.empty() ? arr.size() : st.top();
             st.push(i);
         }
         return ans;
     }
 
-    // Function to find the Previous Greater or Equal Element (PGE or Equal) for each index
+    // Function to find the Previous Smaller or Equal Element (PSE) for each index
     vector<int> findPGEorEqual(vector<int>& arr) {
         vector<int> ans(arr.size());
         stack<int> st;
@@ -28,55 +29,7 @@ public:
             while (!st.empty() && arr[st.top()] < arr[i]) {
                 st.pop();
             }
-            ans[i] = st.empty() ? -1 : st.top();
-            st.push(i);
-        }
-        return ans;
-    }
-
-    // Function to calculate the sum of maximums of all subarrays
-    long long sumSubarrayMaxs(vector<int>& arr) {
-        long long total = 0;
-
-        // Find NGE and PGE arrays
-        vector<int> nge = findNGE(arr);
-        vector<int> pge = findPGEorEqual(arr);
-
-        for (int i = 0; i < arr.size(); i++) {
-            int noOfElementsOnLeftForI = i - pge[i];
-            int noOfElementsOnRightForI = nge[i] - i;
-
-            // Total contribution of arr[i] to all subarray maximums
-            long long subarrayCount = (long long) noOfElementsOnLeftForI * noOfElementsOnRightForI;
-            long long contribution = (subarrayCount * arr[i]);
-            total += contribution;
-        }
-
-        return total;
-    }
-
-    // Function to find the Next Smaller Element (NSE) for each index
-    vector<int> findNSE(vector<int>& arr) {
-        vector<int> ans(arr.size());
-        stack<int> st;
-        for (int i = arr.size() - 1; i >= 0; i--) {
-            while (!st.empty() && arr[st.top()] >= arr[i]) {
-                st.pop();
-            }
-            ans[i] = st.empty() ? arr.size() : st.top();
-            st.push(i);
-        }
-        return ans;
-    }
-
-    // Function to find the Previous Smaller or Equal Element (PSE or Equal) for each index
-    vector<int> findPSEorEqual(vector<int>& arr) {
-        vector<int> ans(arr.size());
-        stack<int> st;
-        for (int i = 0; i < arr.size(); i++) {
-            while (!st.empty() && arr[st.top()] > arr[i]) {
-                st.pop();
-            }
+            // If no previous smaller or equal element is found, treat the boundary as -1
             ans[i] = st.empty() ? -1 : st.top();
             st.push(i);
         }
@@ -84,21 +37,104 @@ public:
     }
 
     // Function to calculate the sum of minimums of all subarrays
-    long long sumSubarrayMins(vector<int>& arr) {
-        long long total = 0;
+    long long sumSubarrayMaxs(vector<int>& arr) {
+        long long total = 0; // Use long to prevent overflow
+
+        // Find NSE and PSE arrays
+        vector<int> nse = findNGE(arr);
+        vector<int> pse = findPGEorEqual(arr);
+
+        for (int i = 0; i < arr.size(); i++) {
+            // Calculate the number of subarrays where arr[i] is the minimum element
+            int noOfElementsOnLeftForI = i - pse[i];
+            int noOfElementsOnRightForI = nse[i] - i;
+
+            // Total contribution of arr[i] to all subarray minimums
+            long long subarrayCount = (long) noOfElementsOnLeftForI * noOfElementsOnRightForI;
+            long long contribution = (subarrayCount * arr[i]);
+            total += contribution;
+        }
+
+        return total;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    vector<int> findNSE(vector<int>& arr) {
+        vector<int> ans(arr.size());
+        stack<int> st;
+        for (int i = arr.size() - 1; i >= 0; i--) {
+            while (!st.empty() && arr[st.top()] >= arr[i]) {
+                st.pop();
+            }
+            // If no smaller element is found, treat the boundary as arr.size()
+            ans[i] = st.empty() ? arr.size() : st.top();
+            st.push(i);
+        }
+        return ans;
+    }
+
+    // Function to find the Previous Smaller or Equal Element (PSE) for each index
+    vector<int> findPSEorEqual(vector<int>& arr) {
+        vector<int> ans(arr.size());
+        stack<int> st;
+        for (int i = 0; i < arr.size(); i++) {
+            while (!st.empty() && arr[st.top()] > arr[i]) {
+                st.pop();
+            }
+            // If no previous smaller or equal element is found, treat the boundary as -1
+            ans[i] = st.empty() ? -1 : st.top();
+            st.push(i);
+        }
+        return ans;
+    }
+
+    // Function to calculate the sum of minimums of all subarrays
+    long long  sumSubarrayMins(vector<int>& arr) {
+        long long total = 0; // Use long to prevent overflow
 
         // Find NSE and PSE arrays
         vector<int> nse = findNSE(arr);
         vector<int> pse = findPSEorEqual(arr);
 
         for (int i = 0; i < arr.size(); i++) {
+            // Calculate the number of subarrays where arr[i] is the minimum element
             int noOfElementsOnLeftForI = i - pse[i];
             int noOfElementsOnRightForI = nse[i] - i;
 
             // Total contribution of arr[i] to all subarray minimums
-            long long subarrayCount = (long long) noOfElementsOnLeftForI * noOfElementsOnRightForI;
+            long long subarrayCount = (long) noOfElementsOnLeftForI * noOfElementsOnRightForI;
             long long contribution = (subarrayCount * arr[i]);
-            total += contribution;
+            total+=contribution;
         }
 
         return total;
