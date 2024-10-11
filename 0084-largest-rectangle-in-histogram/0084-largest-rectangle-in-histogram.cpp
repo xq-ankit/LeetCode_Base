@@ -19,7 +19,7 @@ while(!st.empty()){
 }
 
          for(int i=0;i<n;i++){
-            while(!st.empty() && h[st.top()]>h[i]){
+            while(!st.empty() && h[st.top()]>=h[i]){
                 st.pop();
             }
             if(!st.empty()){
