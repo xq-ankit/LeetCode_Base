@@ -3,6 +3,7 @@ public:
     int lengthOfLIS(vector<int>& nums) {
         vector<int>dp(nums.size(),1);
         return LIS(nums,dp);
+        return LISusingBinarySearch(nums,dp);
     }
     int LIS(vector<int>& nums,vector<int>& dp){
         for(int i=1;i<nums.size();i++){
@@ -27,9 +28,11 @@ public:
             }
             else{
             int idx=*lower_bound(dp.begin(),dp.begin() + len,nums[i]);
+            // int idx=BinarySearch(dp,0,len-1,nums[i]);
             dp[idx]=nums[i];
             }
         }
         return len;
     }
+    // int BinarySearch(vector<int>&dp,int start,int end,nums[i])
 };
