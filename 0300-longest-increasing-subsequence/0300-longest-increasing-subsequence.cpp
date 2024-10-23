@@ -2,7 +2,7 @@ class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
         vector<int>dp(nums.size(),1);
-        return LIS(nums,dp);
+        // return LIS(nums,dp);
         return LISusingBinarySearch(nums,dp);
     }
     int LIS(vector<int>& nums,vector<int>& dp){
@@ -27,7 +27,7 @@ public:
                 len++;
             }
             else{
-            int idx=*lower_bound(dp.begin(),dp.begin() + len,nums[i]);
+            int idx=lower_bound(dp.begin(),dp.begin() + len,nums[i])-dp.begin();
             // int idx=BinarySearch(dp,0,len-1,nums[i]);
             dp[idx]=nums[i];
             }
