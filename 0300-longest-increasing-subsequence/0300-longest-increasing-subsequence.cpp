@@ -27,12 +27,21 @@ public:
                 len++;
             }
             else{
-            int idx=lower_bound(dp.begin(),dp.begin() + len,nums[i])-dp.begin();
-            // int idx=BinarySearch(dp,0,len-1,nums[i]);
+            // int idx=lower_bound(dp.begin(),dp.begin() + len,nums[i])-dp.begin();
+            int idx=BinarySearch(dp,0,len-1,nums[i]);
             dp[idx]=nums[i];
             }
         }
         return len;
     }
-    // int BinarySearch(vector<int>&dp,int start,int end,nums[i])
+   int BinarySearch(vector<int>& dp, int start, int end, int target) {
+    while (start <= end) {
+        int mid = start + (end - start) / 2;
+        if (dp[mid] == target) return mid;
+        else if (dp[mid] < target) start = mid + 1;
+        else end = mid - 1;
+    }
+    return start;  // Return the insertion point
+}
+
 };
