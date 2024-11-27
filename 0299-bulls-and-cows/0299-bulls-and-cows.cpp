@@ -18,7 +18,7 @@ public:
             if(mpp.find(secret[i])!=mpp.end()){
                 c++;
                 mpp[secret[i]]--;
-                if(mpp[guess[i]]==0) mpp.erase(guess[i]);
+                if(mpp[secret[i]]==0) mpp.erase(secret[i]);
             }
         }
         string ans="";
