@@ -38,6 +38,10 @@ public:
         vector<int> level;
         for (auto& q : p.second) {
             level.insert(level.end(), q.second.begin(), q.second.end());
+            // insert allows inserting multiple elements at once
+            // insert(position, first, last) takes a range of iterators and appends them to the vector.
+            // q.second is a multiset<int>, so q.second.begin() to q.second.end() gives an ordered range
+            // of values.
         }
         ans.push_back(level);
     }
