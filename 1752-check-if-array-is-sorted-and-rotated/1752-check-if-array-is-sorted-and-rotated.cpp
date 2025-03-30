@@ -1,9 +1,10 @@
 class Solution {
 public:
-    bool check(vector<int>& nums) {
+    bool check(vector<int>& num) {
         int count=0;
-        for(int i=0;i<nums.size();i++){
-            if(nums[i]>nums[(i+1)%nums.size()]){
+        int n=num.size();
+        for(int i=1;i<=n;i++){
+            if(num[(i-1)%n]>num[(i)%n]){
                 count++;
             }
         }
